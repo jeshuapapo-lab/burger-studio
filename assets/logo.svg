@@ -1,0 +1,8 @@
+<svg width="220" height="40" viewBox="0 0 220 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 22C10 16.4772 14.4772 12 20 12h10c5.5228 0 10 4.4772 10 10v2H10v-2z" fill="#ff5e00"/>
+    <rect x="8" y="26" width="34" height="4" rx="2" fill="#ffffff"/>
+    <path d="M10 32h30c0 4.4183-3.5817 8-8 8H18c-4.4183 0-8-3.5817-8-8z" fill="#ff5e00"/>
+    <text x="55" y="28" font-family="Arial" font-weight="800" font-size="22" fill="#ffffff">
+        Burger<tspan fill="#ff5e00">Studio</tspan>
+    </text>
+</svg>
