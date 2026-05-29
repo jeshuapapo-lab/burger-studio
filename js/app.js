@@ -182,26 +182,26 @@ btnCheckout.addEventListener("click", () => {
     }
 
     let totalMoney = 0;
-    let message = "🍔 BURGER STUDIO\n\n";
+    let message = "BURGER STUDIO\n\n";
     message += "Hola, deseo realizar el siguiente pedido:\n\n";
-    message += "🛒 Productos:\n";
+    message += "PRODUCTOS:\n";
 
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         totalMoney += itemTotal;
-        message += `• ${item.quantity}x ${item.name} — $${itemTotal.toFixed(2)}\n`;
+        message += `- ${item.quantity}x ${item.name} - $${itemTotal.toFixed(2)}\n`;
     });
 
-    message += `\n💰 Total estimado: $${totalMoney.toFixed(2)}\n`;
-    message += `\n📦 Forma de entrega: ${deliveryType}\n`;
+    message += `\nTOTAL ESTIMADO: $${totalMoney.toFixed(2)}\n\n`;
+    message += `FORMA DE ENTREGA: ${deliveryType}\n`;
 
     if (deliveryType === "Domicilio") {
-        message += `👤 Cliente: ${customerName.value.trim()}\n`;
-        message += `📍 Dirección: ${customerAddress.value.trim()}\n`;
-        if (customerReference.value.trim()) message += `🏠 Referencia: ${customerReference.value.trim()}\n`;
-        message += `📞 Teléfono: ${customerPhone.value.trim()}\n`;
+        message += `CLIENTE: ${customerName.value.trim()}\n`;
+        message += `DIRECCION: ${customerAddress.value.trim()}\n`;
+        if (customerReference.value.trim()) message += `REFERENCIA: ${customerReference.value.trim()}\n`;
+        message += `TELEFONO: ${customerPhone.value.trim()}\n`;
     } else {
-        message += "📍 El cliente retirará el pedido en el local.\n";
+        message += "El cliente retirara el pedido en el local.\n";
     }
 
     message += "\nGracias.";
