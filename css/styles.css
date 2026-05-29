@@ -88,3 +88,51 @@ body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hi
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 968px) { .hero-container { grid-template-columns: 1fr; text-align: center; gap: 20px; } .hero-content h1 { font-size: 40px; } .hero-image { order: -1; } .hero-image img { max-width: 300px; } }
 @media (max-width: 560px) { .nav-container { padding: 16px; } .logo img { max-width: 165px; height: auto !important; } .hero { padding-top: 115px; } .hero-content h1 { font-size: 34px; } .hero-content p { font-size: 15px; } .products-grid { grid-template-columns: 1fr; gap: 20px; } .cart-sidebar { right: -100%; max-width: 100%; } .cart-sidebar.open { right: 0; } .cart-header, .cart-body, .cart-footer { padding: 18px; } .delivery-box { margin: 0 18px 16px; padding: 15px; } .wsp-float { width: 52px; height: 52px; font-size: 26px; left: 18px; bottom: 18px; } .toast { left: 16px; right: 16px; top: 82px; } }
+textarea#orderNotes,
+.order-notes {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 100% !important;
+    min-height: 92px !important;
+    margin-top: 14px !important;
+    padding: 13px 14px !important;
+    background: #111115 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 12px !important;
+    outline: none !important;
+    resize: vertical !important;
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02) !important;
+    transition: 0.25s ease !important;
+}
+
+textarea#orderNotes::placeholder,
+.order-notes::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+textarea#orderNotes:focus,
+.order-notes:focus {
+    border-color: #ff5e00 !important;
+    box-shadow: 0 0 0 3px rgba(255, 94, 0, 0.16) !important;
+}
+
+textarea#orderNotes::-webkit-scrollbar,
+.order-notes::-webkit-scrollbar {
+    width: 8px;
+}
+
+textarea#orderNotes::-webkit-scrollbar-thumb,
+.order-notes::-webkit-scrollbar-thumb {
+    background: rgba(255, 94, 0, 0.45);
+    border-radius: 10px;
+}
+
+textarea#orderNotes::-webkit-scrollbar-track,
+.order-notes::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
