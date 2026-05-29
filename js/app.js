@@ -44,6 +44,7 @@ const customerName = document.getElementById("customerName");
 const customerAddress = document.getElementById("customerAddress");
 const customerReference = document.getElementById("customerReference");
 const customerPhone = document.getElementById("customerPhone");
+const orderNotes = document.getElementById("orderNotes");
 
 function showToast(message) {
     if (!toast || !toastText) return;
@@ -131,6 +132,16 @@ window.removeFromCart = function(productId) {
     updateCartDOM();
 };
 
+window.clearCart = function() {
+    if (cart.length === 0) {
+        showToast("El carrito ya está vacío");
+        return;
+    }
+    cart = [];
+    updateCartDOM();
+    showToast("Carrito vaciado correctamente");
+};
+
 function updateCartDOM() {
     cartBody.innerHTML = "";
     if (cart.length === 0) {
@@ -202,6 +213,10 @@ btnCheckout.addEventListener("click", () => {
         message += `TELEFONO: ${customerPhone.value.trim()}\n`;
     } else {
         message += "El cliente retirara el pedido en el local.\n";
+    }
+
+    if (orderNotes && orderNotes.value.trim()) {
+        message += `\nOBSERVACIONES: ${orderNotes.value.trim()}\n`;
     }
 
     message += "\nGracias.";
