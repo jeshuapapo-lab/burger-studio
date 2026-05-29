@@ -38,16 +38,18 @@ const productsGrid = document.getElementById("productsGrid");
 const categoryPills = document.querySelectorAll(".category-pill");
 const toast = document.getElementById("toast");
 const toastText = document.getElementById("toastText");
+const deliveryFields = document.getElementById("deliveryFields");
+const deliveryRadios = document.querySelectorAll('input[name="deliveryType"]');
+const customerName = document.getElementById("customerName");
+const customerAddress = document.getElementById("customerAddress");
+const customerReference = document.getElementById("customerReference");
+const customerPhone = document.getElementById("customerPhone");
 
 function showToast(message) {
     if (!toast || !toastText) return;
-
     toastText.innerText = message;
     toast.classList.add("show");
-
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2200);
+    setTimeout(() => toast.classList.remove("show"), 2200);
 }
 
 function toggleCart() {
@@ -59,17 +61,27 @@ cartToggle.addEventListener("click", toggleCart);
 closeCart.addEventListener("click", toggleCart);
 cartOverlay.addEventListener("click", toggleCart);
 
+function getDeliveryType() {
+    const selected = document.querySelector('input[name="deliveryType"]:checked');
+    return selected ? selected.value : "Retiro en local";
+}
+
+function updateDeliveryFields() {
+    if (!deliveryFields) return;
+    deliveryFields.style.display = getDeliveryType() === "Domicilio" ? "grid" : "none";
+}
+
+deliveryRadios.forEach(radio => radio.addEventListener("change", updateDeliveryFields));
+updateDeliveryFields();
+
 categoryPills.forEach(pill => {
     pill.addEventListener("click", () => {
         categoryPills.forEach(p => p.classList.remove("active"));
         pill.classList.add("active");
-
         const selectedCategory = pill.getAttribute("data-category");
         const cards = productsGrid.querySelectorAll(".product-card");
-
         cards.forEach(card => {
             const cardCategory = card.getAttribute("data-category");
-
             if (selectedCategory === "all" || cardCategory === selectedCategory) {
                 card.style.display = "block";
                 card.style.animation = "fadeIn 0.4s ease forwards";
@@ -82,27 +94,17 @@ categoryPills.forEach(pill => {
 
 productsGrid.addEventListener("click", (e) => {
     const targetButton = e.target.closest(".btn-add-cart");
-
-    if (targetButton) {
-        const productCard = targetButton.closest(".product-card");
-        const productName = productCard.querySelector("h3").innerText.trim();
-        const productData = products.find(p => p.name === productName);
-
-        if (productData) {
-            addToCart(productData);
-        }
-    }
+    if (!targetButton) return;
+    const productCard = targetButton.closest(".product-card");
+    const productName = productCard.querySelector("h3").innerText.trim();
+    const productData = products.find(p => p.name === productName);
+    if (productData) addToCart(productData);
 });
 
 function addToCart(product) {
     const existingItem = cart.find(item => item.id === product.id);
-
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({ ...product, quantity: 1 });
-    }
-
+    if (existingItem) existingItem.quantity += 1;
+    else cart.push({ ...product, quantity: 1 });
     showToast(`${product.name} agregado al carrito`);
     updateCartDOM();
 }
@@ -114,16 +116,13 @@ function removeFromCart(productId) {
 
 window.changeQuantity = function(productId, amount) {
     const item = cart.find(item => item.id === productId);
-
     if (item) {
         item.quantity += amount;
-
         if (item.quantity <= 0) {
             removeFromCart(productId);
             return;
         }
     }
-
     updateCartDOM();
 };
 
@@ -134,7 +133,6 @@ window.removeFromCart = function(productId) {
 
 function updateCartDOM() {
     cartBody.innerHTML = "";
-
     if (cart.length === 0) {
         cartBody.innerHTML = `<p class="empty-cart-text">El carrito está vacío. ¡Empieza a llenarlo!</p>`;
         cartCount.innerText = "0";
@@ -149,25 +147,21 @@ function updateCartDOM() {
         totalItemsCount += item.quantity;
         const itemTotal = item.price * item.quantity;
         totalMoney += itemTotal;
-
-        const cartItemHTML = `
-            <div class="cart-item" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <div class="item-details" style="flex: 1; padding-right: 10px;">
-                    <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 4px; color: #fff;">${item.name}</h4>
-                    <p style="color: var(--text-muted); font-size: 13px;">$${item.price.toFixed(2)} c/u</p>
+        cartBody.innerHTML += `
+            <div class="cart-item" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,0.05);gap:12px;">
+                <div class="item-details" style="flex:1;padding-right:10px;">
+                    <h4 style="font-size:15px;font-weight:700;margin-bottom:4px;color:#fff;">${item.name}</h4>
+                    <p style="color:var(--text-muted);font-size:13px;">$${item.price.toFixed(2)} c/u</p>
                 </div>
-                <div class="item-actions" style="display: flex; align-items: center; gap: 12px;">
-                    <div class="quantity-controls" style="display: flex; align-items: center; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 4px 8px; gap: 10px;">
-                        <button onclick="changeQuantity(${item.id}, -1)" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 14px;"><i class="fa-solid fa-minus"></i></button>
-                        <span style="font-weight: 700; font-size: 14px; color: #fff;">${item.quantity}</span>
-                        <button onclick="changeQuantity(${item.id}, 1)" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 14px;"><i class="fa-solid fa-plus"></i></button>
+                <div class="item-actions" style="display:flex;align-items:center;gap:12px;">
+                    <div class="quantity-controls" style="display:flex;align-items:center;background:rgba(255,255,255,0.05);border-radius:8px;padding:4px 8px;gap:10px;">
+                        <button onclick="changeQuantity(${item.id}, -1)" style="background:none;border:none;color:#fff;cursor:pointer;font-size:14px;"><i class="fa-solid fa-minus"></i></button>
+                        <span style="font-weight:700;font-size:14px;color:#fff;">${item.quantity}</span>
+                        <button onclick="changeQuantity(${item.id}, 1)" style="background:none;border:none;color:#fff;cursor:pointer;font-size:14px;"><i class="fa-solid fa-plus"></i></button>
                     </div>
-                    <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 16px; margin-left: 5px;"><i class="fa-solid fa-trash"></i></button>
+                    <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px;margin-left:5px;"><i class="fa-solid fa-trash"></i></button>
                 </div>
-            </div>
-        `;
-
-        cartBody.innerHTML += cartItemHTML;
+            </div>`;
     });
 
     cartCount.innerText = totalItemsCount;
@@ -176,25 +170,44 @@ function updateCartDOM() {
 
 btnCheckout.addEventListener("click", () => {
     if (cart.length === 0) {
-        alert("¡Tu carrito está vacío! Agrega una burger antes de hacer tu pedido.");
+        alert("Tu carrito está vacío. Agrega un producto antes de confirmar el pedido.");
         return;
     }
 
-    let message = "Hola, quiero realizar este pedido:\n\n";
+    const deliveryType = getDeliveryType();
+
+    if (deliveryType === "Domicilio" && (!customerName.value.trim() || !customerAddress.value.trim() || !customerPhone.value.trim())) {
+        alert("Para domicilio, completa nombre, dirección y teléfono.");
+        return;
+    }
+
     let totalMoney = 0;
+    let message = "🍔 BURGER STUDIO\n\n";
+    message += "Hola, deseo realizar el siguiente pedido:\n\n";
+    message += "🛒 Productos:\n";
 
     cart.forEach(item => {
         const itemTotal = item.price * item.quantity;
         totalMoney += itemTotal;
-        message += `${item.quantity}x ${item.name} - $${itemTotal.toFixed(2)}\n`;
+        message += `• ${item.quantity}x ${item.name} — $${itemTotal.toFixed(2)}\n`;
     });
 
-    message += `\nTotal: $${totalMoney.toFixed(2)}\n`;
-    message += "Gracias.";
+    message += `\n💰 Total estimado: $${totalMoney.toFixed(2)}\n`;
+    message += `\n📦 Forma de entrega: ${deliveryType}\n`;
+
+    if (deliveryType === "Domicilio") {
+        message += `👤 Cliente: ${customerName.value.trim()}\n`;
+        message += `📍 Dirección: ${customerAddress.value.trim()}\n`;
+        if (customerReference.value.trim()) message += `🏠 Referencia: ${customerReference.value.trim()}\n`;
+        message += `📞 Teléfono: ${customerPhone.value.trim()}\n`;
+    } else {
+        message += "📍 El cliente retirará el pedido en el local.\n";
+    }
+
+    message += "\nGracias.";
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-
     window.open(whatsappURL, "_blank");
 });
 
