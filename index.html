@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Burger Studio | Catálogo Digital</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none'><path d='M4 14C4 8.5 9 5 16 5C23 5 28 8.5 28 14H4Z' fill='%23ff5e00' stroke='%23000000' stroke-width='1.5'/><rect x='4' y='17.5' width='24' height='3.5' rx='1.75' fill='%23ffffff' stroke='%23000000' stroke-width='1.5'/><path d='M4 24H28V24.5C28 27 23 28.5 16 28.5C9 28.5 4 27 4 24.5V24Z' fill='%23ff5e00' stroke='%23000000' stroke-width='1.5'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -12,104 +12,33 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="./assets/logo.svg" alt="BurgerStudio Logo" style="height: 32px; display: block;">
-            </a>
-            <div class="nav-actions">
-                <button class="cart-toggle-btn" id="cartToggle">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="cart-count">0</span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <span class="badge">🔥 Las más buscadas de Guayaquil</span>
-                <h1>Sabor Real <br>en cada Mordisco</h1>
-                <p>Hamburguesas artesanales con ingredientes premium listos para ir a tu mesa. ¡Pide en línea y recibe al instante!</p>
-                <a href="#menu" class="btn-primary">Ver Menú <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-            <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop" alt="Premium Burger">
-                <div class="glow-effect"></div>
-            </div>
-        </div>
-    </header>
-
-    <section class="categories-section" id="menu">
-        <div class="section-title">
-            <h2>Nuestra Especialidad</h2>
-            <p>Selecciona tu categoría favorita</p>
-        </div>
-        <div class="categories-container">
-            <button class="category-pill active" data-category="all">🍔 Todas</button>
-            <button class="category-pill" data-category="burgers">Hamburguesas</button>
-            <button class="category-pill" data-category="sides">Papas</button>
-            <button class="category-pill" data-category="hotdogs">Hot Dogs</button>
-            <button class="category-pill" data-category="salchipapas">Salchipapas</button>
-            <button class="category-pill" data-category="papipollos">Papipollos</button>
-            <button class="category-pill" data-category="drinks">Bebidas</button>
-        </div>
-    </section>
-
-    <section class="products-section">
-        <div class="products-grid" id="productsGrid">
-            <div class="product-card" data-category="burgers"><div class="card-image"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop" alt="Cheddar Boom"><span class="card-badge">Más Vendida</span></div><div class="card-info"><h3>Cheddar Boom Burger</h3><p class="card-description">Doble carne de res de 150g, triple cheddar fundido, tocino ahumado y salsa especial de la casa.</p><div class="card-footer"><span class="price">$4.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="burgers"><div class="card-image"><img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=600&auto=format&fit=crop" alt="Clásica Studio"></div><div class="card-info"><h3>Clásica Studio</h3><p class="card-description">Carne artesanal de 150g, queso americano, lechuga fresca, tomate, cebolla y pepinillos.</p><div class="card-footer"><span class="price">$3.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="burgers"><div class="card-image"><img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?q=80&w=600&auto=format&fit=crop" alt="Crispy Chicken"></div><div class="card-info"><h3>Crispy Chicken Extra</h3><p class="card-description">Pechuga de pollo súper crujiente, ensalada coleslaw, pepinillos y mayonesa ahumada.</p><div class="card-footer"><span class="price">$4.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="sides"><div class="card-image"><img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=600&auto=format&fit=crop" alt="Papas Supremas"><span class="card-badge">Favorito</span></div><div class="card-info"><h3>Papas rústicas Supremas</h3><p class="card-description">Papas rústicas crujientes bañadas en abundante queso cheddar derretido y trozos de tocino.</p><div class="card-footer"><span class="price">$2.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="sides"><div class="card-image"><img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=600&auto=format&fit=crop" alt="Papas Clásicas"></div><div class="card-info"><h3>Papas Fritas Clásicas</h3><p class="card-description">Porción grande de papas tradicionales corte fino, doradas a la perfección con sal marina.</p><div class="card-footer"><span class="price">$1.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="sides"><div class="card-image"><img src="https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?q=80&w=600&auto=format&fit=crop" alt="Papas BBQ"></div><div class="card-info"><h3>Papas BBQ Pulled Pork</h3><p class="card-description">Papas fritas cubiertas de cerdo desmechado en salsa BBQ dulce y un toque de cebollín.</p><div class="card-footer"><span class="price">$3.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="hotdogs"><div class="card-image"><img src="https://images.unsplash.com/photo-1619740455993-9e612b1af08a?q=80&w=600&auto=format&fit=crop" alt="Monster Dog"></div><div class="card-info"><h3>Monster Dog XL</h3><p class="card-description">Salchicha gigante premium, ensalada de col, papitas trituradas crunch, queso y salsas de la casa.</p><div class="card-footer"><span class="price">$2.75</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="hotdogs"><div class="card-image"><img src="https://images.unsplash.com/photo-1590165482129-1b8b27698780?q=80&w=600&auto=format&fit=crop" alt="Cheddar Dog"></div><div class="card-info"><h3>Cheddar & Bacon Dog</h3><p class="card-description">Pan brioche artesanal, salchicha premium envuelta en tocino y crema de queso cheddar fundido.</p><div class="card-footer"><span class="price">$3.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="hotdogs"><div class="card-image"><img src="https://images.unsplash.com/photo-1541214113241-21578d2d9b62?q=80&w=600&auto=format&fit=crop" alt="Hot Dog Clásico"></div><div class="card-info"><h3>Hot Dog Clásico</h3><p class="card-description">El de toda la vida: salchicha seleccionada, salsa de tomate, mostaza y mayonesa tradicional.</p><div class="card-footer"><span class="price">$1.75</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="salchipapas"><div class="card-image"><img src="https://images.unsplash.com/photo-1576107246228-c132c10db9da?q=80&w=600&auto=format&fit=crop" alt="Salchi Especial"><span class="card-badge">Especial</span></div><div class="card-info"><h3>Salchipapa Suprema</h3><p class="card-description">Cama de papas crujientes, abundante salchicha ahumada picada, queso gratinado y salsas.</p><div class="card-footer"><span class="price">$3.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="salchipapas"><div class="card-image"><img src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?q=80&w=600&auto=format&fit=crop" alt="Salchi Simple"></div><div class="card-info"><h3>Salchipapa Tradicional</h3><p class="card-description">La porción perfecta de papas fritas mezcladas con rodajas de salchichas fritas doraditas.</p><div class="card-footer"><span class="price">$2.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="salchipapas"><div class="card-image"><img src="https://images.unsplash.com/photo-1598103442097-8b74394b98c6?q=80&w=600&auto=format&fit=crop" alt="Salchi Criolla"></div><div class="card-info"><h3>Salchipapa Criolla</h3><p class="card-description">Papas fritas con salchicha ahumada, huevo frito montado arriba y un toque de mayonesa de ajo.</p><div class="card-footer"><span class="price">$2.75</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="papipollos"><div class="card-image"><img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=600&auto=format&fit=crop" alt="Papipollo Broaster"></div><div class="card-info"><h3>Papipollo Broaster</h3><p class="card-description">Porción de papas con una crujiente y jugosa presa de pollo broaster al estilo secreto.</p><div class="card-footer"><span class="price">$3.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="papipollos"><div class="card-image"><img src="https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?q=80&w=600&auto=format&fit=crop" alt="Papipollo Strips"><span class="card-badge">Práctico</span></div><div class="card-info"><h3>Papipollo Tenders</h3><p class="card-description">Papas fritas acompañadas de 3 tiras de pechuga de pollo (tenders) súper crocantes sin hueso.</p><div class="card-footer"><span class="price">$3.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="papipollos"><div class="card-image"><img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?q=80&w=600&auto=format&fit=crop" alt="Papipollo Alitas"></div><div class="card-info"><h3>Papipollo Alitas BBQ</h3><p class="card-description">Papas doradas combinadas con alitas crujientes bañadas en nuestra salsa artesanal BBQ.</p><div class="card-footer"><span class="price">$4.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="drinks"><div class="card-image"><img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop" alt="Gaseosa"></div><div class="card-info"><h3>Gaseosa Personal</h3><p class="card-description">Lata helada de 355ml a elección para acompañar tu combo favorito de la mejor manera.</p><div class="card-footer"><span class="price">$0.75</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="drinks"><div class="card-image"><img src="https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=600&auto=format&fit=crop" alt="Té Helado"></div><div class="card-info"><h3>Té Helado de la Casa</h3><p class="card-description">Té frío natural preparado diariamente con un toque exacto de limón fresco y menta.</p><div class="card-footer"><span class="price">$1.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-            <div class="product-card" data-category="drinks"><div class="card-image"><img src="https://images.unsplash.com/photo-1548365328-8c6db3220e4c?q=80&w=600&auto=format&fit=crop" alt="Agua"></div><div class="card-info"><h3>Agua Mineral</h3><p class="card-description">Botella de agua purificada de 500ml, perfecta para refrescarse de manera ligera.</p><div class="card-footer"><span class="price">$0.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
-        </div>
-    </section>
-
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>Tu Pedido</h3>
-            <button class="close-cart" id="closeCart"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="cart-body" id="cartBody">
-            <p class="empty-cart-text">El carrito está vacío. ¡Empieza a llenarlo!</p>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total estimado:</span>
-                <span class="total-price" id="cartTotal">$0.00</span>
-            </div>
-            <button class="btn-checkout" id="btnCheckout">
-                <i class="fa-brands fa-whatsapp"></i> Confirmar por WhatsApp
-            </button>
-        </div>
-    </div>
-
+    <nav class="navbar"><div class="nav-container"><a href="#" class="logo"><img src="./assets/logo.svg" alt="BurgerStudio Logo" style="height:32px;display:block;"></a><div class="nav-actions"><button class="cart-toggle-btn" id="cartToggle"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count">0</span></button></div></div></nav>
+    <header class="hero"><div class="hero-container"><div class="hero-content"><span class="badge">🔥 Las más buscadas de Guayaquil</span><h1>Sabor Real <br>en cada Mordisco</h1><p>Hamburguesas artesanales con ingredientes premium listos para ir a tu mesa. ¡Pide en línea y recibe al instante!</p><a href="#menu" class="btn-primary">Ver Menú <i class="fa-solid fa-arrow-right"></i></a></div><div class="hero-image"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop" alt="Premium Burger"><div class="glow-effect"></div></div></div></header>
+    <section class="categories-section" id="menu"><div class="section-title"><h2>Nuestra Especialidad</h2><p>Selecciona tu categoría favorita</p></div><div class="categories-container"><button class="category-pill active" data-category="all">🍔 Todas</button><button class="category-pill" data-category="burgers">Hamburguesas</button><button class="category-pill" data-category="sides">Papas</button><button class="category-pill" data-category="hotdogs">Hot Dogs</button><button class="category-pill" data-category="salchipapas">Salchipapas</button><button class="category-pill" data-category="papipollos">Papipollos</button><button class="category-pill" data-category="drinks">Bebidas</button></div></section>
+    <section class="products-section"><div class="products-grid" id="productsGrid">
+        <div class="product-card" data-category="burgers"><div class="card-image"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop" alt="Cheddar Boom"><span class="card-badge">Más Vendida</span></div><div class="card-info"><h3>Cheddar Boom Burger</h3><p class="card-description">Doble carne de res de 150g, triple cheddar fundido, tocino ahumado y salsa especial de la casa.</p><div class="card-footer"><span class="price">$4.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="burgers"><div class="card-image"><img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=600&auto=format&fit=crop" alt="Clásica Studio"></div><div class="card-info"><h3>Clásica Studio</h3><p class="card-description">Carne artesanal de 150g, queso americano, lechuga fresca, tomate, cebolla y pepinillos.</p><div class="card-footer"><span class="price">$3.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="burgers"><div class="card-image"><img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?q=80&w=600&auto=format&fit=crop" alt="Crispy Chicken"></div><div class="card-info"><h3>Crispy Chicken Extra</h3><p class="card-description">Pechuga de pollo súper crujiente, ensalada coleslaw, pepinillos y mayonesa ahumada.</p><div class="card-footer"><span class="price">$4.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="sides"><div class="card-image"><img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=600&auto=format&fit=crop" alt="Papas Supremas"><span class="card-badge">Favorito</span></div><div class="card-info"><h3>Papas rústicas Supremas</h3><p class="card-description">Papas rústicas crujientes bañadas en abundante queso cheddar derretido y trozos de tocino.</p><div class="card-footer"><span class="price">$2.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="sides"><div class="card-image"><img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=600&auto=format&fit=crop" alt="Papas Clásicas"></div><div class="card-info"><h3>Papas Fritas Clásicas</h3><p class="card-description">Porción grande de papas tradicionales corte fino, doradas a la perfección con sal marina.</p><div class="card-footer"><span class="price">$1.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="sides"><div class="card-image"><img src="https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?q=80&w=600&auto=format&fit=crop" alt="Papas BBQ"></div><div class="card-info"><h3>Papas BBQ Pulled Pork</h3><p class="card-description">Papas fritas cubiertas de cerdo desmechado en salsa BBQ dulce y un toque de cebollín.</p><div class="card-footer"><span class="price">$3.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="hotdogs"><div class="card-image"><img src="https://images.unsplash.com/photo-1619740455993-9e612b1af08a?q=80&w=600&auto=format&fit=crop" alt="Monster Dog"></div><div class="card-info"><h3>Monster Dog XL</h3><p class="card-description">Salchicha gigante premium, ensalada de col, papitas trituradas crunch, queso y salsas de la casa.</p><div class="card-footer"><span class="price">$2.75</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="hotdogs"><div class="card-image"><img src="https://images.unsplash.com/photo-1541214113241-21578d2d9b62?q=80&w=600&auto=format&fit=crop" alt="Cheddar Dog"></div><div class="card-info"><h3>Cheddar & Bacon Dog</h3><p class="card-description">Pan brioche artesanal, salchicha premium envuelta en tocino y crema de queso cheddar fundido.</p><div class="card-footer"><span class="price">$3.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="hotdogs"><div class="card-image"><img src="https://images.unsplash.com/photo-1619740455993-9e612b1af08a?q=80&w=600&auto=format&fit=crop" alt="Hot Dog Clásico"></div><div class="card-info"><h3>Hot Dog Clásico</h3><p class="card-description">El de toda la vida: salchicha seleccionada, salsa de tomate, mostaza y mayonesa tradicional.</p><div class="card-footer"><span class="price">$1.75</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="salchipapas"><div class="card-image"><img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=600&auto=format&fit=crop" alt="Salchi Especial"><span class="card-badge">Especial</span></div><div class="card-info"><h3>Salchipapa Suprema</h3><p class="card-description">Cama de papas crujientes, abundante salchicha ahumada picada, queso gratinado y salsas.</p><div class="card-footer"><span class="price">$3.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="salchipapas"><div class="card-image"><img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=600&auto=format&fit=crop" alt="Salchi Simple"></div><div class="card-info"><h3>Salchipapa Tradicional</h3><p class="card-description">La porción perfecta de papas fritas mezcladas con rodajas de salchichas fritas doraditas.</p><div class="card-footer"><span class="price">$2.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="salchipapas"><div class="card-image"><img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?q=80&w=600&auto=format&fit=crop" alt="Salchi Criolla"></div><div class="card-info"><h3>Salchipapa Criolla</h3><p class="card-description">Papas fritas con salchicha ahumada, huevo frito montado arriba y un toque de mayonesa de ajo.</p><div class="card-footer"><span class="price">$2.75</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="papipollos"><div class="card-image"><img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=600&auto=format&fit=crop" alt="Papipollo Broaster"></div><div class="card-info"><h3>Papipollo Broaster</h3><p class="card-description">Porción de papas con una crujiente y jugosa presa de pollo broaster al estilo secreto.</p><div class="card-footer"><span class="price">$3.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="papipollos"><div class="card-image"><img src="https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?q=80&w=600&auto=format&fit=crop" alt="Papipollo Strips"><span class="card-badge">Práctico</span></div><div class="card-info"><h3>Papipollo Tenders</h3><p class="card-description">Papas fritas acompañadas de 3 tiras de pechuga de pollo (tenders) súper crocantes sin hueso.</p><div class="card-footer"><span class="price">$3.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="papipollos"><div class="card-image"><img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?q=80&w=600&auto=format&fit=crop" alt="Papipollo Alitas"></div><div class="card-info"><h3>Papipollo Alitas BBQ</h3><p class="card-description">Papas doradas combinadas con alitas crujientes bañadas en nuestra salsa artesanal BBQ.</p><div class="card-footer"><span class="price">$4.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="drinks"><div class="card-image"><img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop" alt="Gaseosa"></div><div class="card-info"><h3>Gaseosa Personal</h3><p class="card-description">Lata helada de 355ml a elección para acompañar tu combo favorito de la mejor manera.</p><div class="card-footer"><span class="price">$0.75</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="drinks"><div class="card-image"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=600&auto=format&fit=crop" alt="Té Helado"></div><div class="card-info"><h3>Té Helado de la Casa</h3><p class="card-description">Té frío natural preparado diariamente con un toque exacto de limón fresco y menta.</p><div class="card-footer"><span class="price">$1.00</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+        <div class="product-card" data-category="drinks"><div class="card-image"><img src="https://images.unsplash.com/photo-1523362628745-0c100150b504?q=80&w=600&auto=format&fit=crop" alt="Agua"></div><div class="card-info"><h3>Agua Mineral</h3><p class="card-description">Botella de agua purificada de 500ml, perfecta para refrescarse de manera ligera.</p><div class="card-footer"><span class="price">$0.50</span><button class="btn-add-cart"><i class="fa-solid fa-plus"></i></button></div></div></div>
+    </div></section>
+    <div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3>Tu Pedido</h3><button class="close-cart" id="closeCart"><i class="fa-solid fa-xmark"></i></button></div><div class="cart-body" id="cartBody"><p class="empty-cart-text">El carrito está vacío. ¡Empieza a llenarlo!</p></div><div class="cart-footer"><div class="cart-total"><span>Total estimado:</span><span class="total-price" id="cartTotal">$0.00</span></div><button class="btn-checkout" id="btnCheckout"><i class="fa-brands fa-whatsapp"></i> Confirmar por WhatsApp</button></div></div>
     <div class="cart-overlay" id="cartOverlay"></div>
-
-    <a href="https://wa.me/593999999999" class="wsp-float" target="_blank">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
-    <div class="toast" id="toast">
-        <i class="fa-solid fa-circle-check"></i>
-        <span id="toastText">Producto agregado al carrito</span>
-    </div>
-
+    <a href="https://wa.me/593999999999" class="wsp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    <div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastText">Producto agregado al carrito</span></div>
     <script src="js/app.js"></script>
 </body>
 </html>
