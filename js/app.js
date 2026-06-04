@@ -20,7 +20,10 @@ const products = [
     { id: 15, name: "Papipollo Alitas BBQ", price: 4.00, category: "papipollos", image: "https://images.unsplash.com/photo-1766589221522-d5beae155124?q=80&w=600&auto=format&fit=crop" },
     { id: 16, name: "Gaseosa Personal", price: 0.75, category: "drinks", image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop" },
     { id: 17, name: "Té Helado de la Casa", price: 1.00, category: "drinks", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=600&auto=format&fit=crop" },
-    { id: 18, name: "Agua Mineral", price: 0.50, category: "drinks", image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?q=80&w=600&auto=format&fit=crop" }
+    { id: 18, name: "Agua Mineral", price: 0.50, category: "drinks", image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?q=80&w=600&auto=format&fit=crop" },
+    { id: 101, name: "Combo Doble", price: 8.50, category: "combos" },
+    { id: 102, name: "Combo Estudiante", price: 5.25, category: "combos" },
+    { id: 103, name: "Combo Familiar", price: 18.90, category: "combos" }
 ];
 
 let cart = [];
@@ -91,9 +94,10 @@ function injectCatalogEnhancementStyles() {
         .combo-meta span { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,0.065); border: 1px solid rgba(255,255,255,0.08); color: #ffd08a; font-size: 12px; font-weight: 800; }
         .combo-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
         .combo-footer strong { color: #fff; font-size: 27px; }
-        .combo-footer a { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 12px; color: #fff; text-decoration: none; font-size: 13px; font-weight: 800; background: var(--primary-gradient); box-shadow: 0 12px 24px rgba(255,94,0,0.18); white-space: nowrap; }
+        .combo-footer button { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 12px; color: #fff; border: none; font-size: 13px; font-weight: 800; background: var(--primary-gradient); box-shadow: 0 12px 24px rgba(255,94,0,0.18); white-space: nowrap; cursor: pointer; transition: var(--transition); }
+        .combo-footer button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(255,94,0,0.28); }
         @media (max-width: 968px) { .combos-grid { grid-template-columns: 1fr; } .combo-card { min-height: 220px; } }
-        @media (max-width: 560px) { .logo { min-width: 0; } .logo img { width: 190px !important; max-width: 58vw; } .cart-item-top, .cart-item-bottom { align-items: stretch; } .cart-item-bottom { flex-direction: column; } .quantity-controls { justify-content: space-between; width: 100%; } .btn-remove-item { width: 100%; } .combos-section { margin-bottom: 34px; padding: 0 14px; } .combo-card { padding: 20px; min-height: auto; } .combo-footer { align-items: stretch; flex-direction: column; } .combo-footer a { width: 100%; } }
+        @media (max-width: 560px) { .logo { min-width: 0; } .logo img { width: 190px !important; max-width: 58vw; } .cart-item-top, .cart-item-bottom { align-items: stretch; } .cart-item-bottom { flex-direction: column; } .quantity-controls { justify-content: space-between; width: 100%; } .btn-remove-item { width: 100%; } .combos-section { margin-bottom: 34px; padding: 0 14px; } .combo-card { padding: 20px; min-height: auto; } .combo-footer { align-items: stretch; flex-direction: column; } .combo-footer button { width: 100%; } }
     `;
     document.head.appendChild(style);
 }
@@ -133,21 +137,21 @@ function injectPromoCombosSection() {
                 <h3>Combo Doble</h3>
                 <p>Compra 2 hamburguesas y llevate 2 colas gratis para acompanar.</p>
                 <div class="combo-meta"><span>2 burgers</span><span>2 colas gratis</span></div>
-                <div class="combo-footer"><strong>$8.50</strong><a href="#menu">Ver hamburguesas</a></div>
+                <div class="combo-footer"><strong>$8.50</strong><button type="button" class="btn-add-combo" data-combo-id="101">Agregar combo</button></div>
             </article>
             <article class="combo-card">
                 <span class="combo-tag">Precio especial</span>
                 <h3>Combo Estudiante</h3>
                 <p>Hamburguesa clasica, papas crujientes y gaseosa personal en un solo combo.</p>
                 <div class="combo-meta"><span>Clasica</span><span>Papas + bebida</span></div>
-                <div class="combo-footer"><strong>$5.25</strong><a href="#menu">Elegir ahora</a></div>
+                <div class="combo-footer"><strong>$5.25</strong><button type="button" class="btn-add-combo" data-combo-id="102">Agregar combo</button></div>
             </article>
             <article class="combo-card">
                 <span class="combo-tag">Para compartir</span>
                 <h3>Combo Familiar</h3>
                 <p>4 hamburguesas, 2 papas grandes y 4 bebidas para una mesa completa.</p>
                 <div class="combo-meta"><span>4 burgers</span><span>2 papas grandes</span></div>
-                <div class="combo-footer"><strong>$18.90</strong><a href="#menu">Armar pedido</a></div>
+                <div class="combo-footer"><strong>$18.90</strong><button type="button" class="btn-add-combo" data-combo-id="103">Agregar combo</button></div>
             </article>
         </div>
     `;
@@ -362,6 +366,14 @@ productsGrid.addEventListener("click", event => {
     const productName = targetButton.closest(".product-card").querySelector("h3").innerText.trim();
     const productData = products.find(product => product.name === productName);
     if (productData) addToCart(productData);
+});
+
+document.addEventListener("click", event => {
+    const comboButton = event.target.closest(".btn-add-combo");
+    if (!comboButton) return;
+    const comboId = Number(comboButton.dataset.comboId);
+    const comboData = products.find(product => product.id === comboId);
+    if (comboData) addToCart(comboData);
 });
 
 btnCheckout.addEventListener("click", () => {
