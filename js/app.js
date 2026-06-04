@@ -1,5 +1,5 @@
 /* ========================================================================== 
-   JS/APP.JS - SISTEMA DE CARRITO, FILTROS Y ENLACE AUTOMÁTICO DE PEDIDOS
+   JS/APP.JS - SISTEMA DE CARRITO, FILTROS Y ENLACE AUTOMATICO DE PEDIDOS
    ========================================================================== */
 
 const products = [
@@ -12,18 +12,22 @@ const products = [
     { id: 7, name: "Monster Dog XL", price: 2.75, category: "hotdogs", image: "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?q=80&w=600&auto=format&fit=crop" },
     { id: 8, name: "Cheddar & Bacon Dog", price: 3.00, category: "hotdogs", image: "https://images.unsplash.com/photo-1541214113241-21578d2d9b62?q=80&w=600&auto=format&fit=crop" },
     { id: 9, name: "Hot Dog Clásico", price: 1.75, category: "hotdogs", image: "https://images.unsplash.com/photo-1612392062631-94dd858cba88?q=80&w=600&auto=format&fit=crop" },
-    { id: 10, name: "Salchipapa Suprema", price: 3.50, category: "salchipapas", image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=600&auto=format&fit=crop" },
-    { id: 11, name: "Salchipapa Tradicional", price: 2.00, category: "salchipapas", image: "https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=600&auto=format&fit=crop" },
-    { id: 12, name: "Salchipapa Criolla", price: 2.75, category: "salchipapas", image: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?q=80&w=600&auto=format&fit=crop" },
-    { id: 13, name: "Papipollo Broaster", price: 3.00, category: "papipollos", image: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?q=80&w=600&auto=format&fit=crop" },
+    { id: 10, name: "Salchipapa Suprema", price: 3.50, category: "salchipapas", image: "https://images.unsplash.com/photo-1762284513216-5d378725b460?q=80&w=600&auto=format&fit=crop" },
+    { id: 11, name: "Salchipapa Tradicional", price: 2.00, category: "salchipapas", image: "https://images.unsplash.com/photo-1762284513031-3d7ad15562bc?q=80&w=600&auto=format&fit=crop" },
+    { id: 12, name: "Salchipapa Criolla", price: 2.75, category: "salchipapas", image: "https://images.unsplash.com/photo-1767065627047-e9251244c3ad?q=80&w=600&auto=format&fit=crop" },
+    { id: 13, name: "Papipollo Broaster", price: 3.00, category: "papipollos", image: "https://images.unsplash.com/photo-1578875858391-50798bc2ffee?q=80&w=600&auto=format&fit=crop" },
     { id: 14, name: "Papipollo Tenders", price: 3.50, category: "papipollos", image: "https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?q=80&w=600&auto=format&fit=crop" },
-    { id: 15, name: "Papipollo Alitas BBQ", price: 4.00, category: "papipollos", image: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=600&auto=format&fit=crop" },
+    { id: 15, name: "Papipollo Alitas BBQ", price: 4.00, category: "papipollos", image: "https://images.unsplash.com/photo-1766589221522-d5beae155124?q=80&w=600&auto=format&fit=crop" },
     { id: 16, name: "Gaseosa Personal", price: 0.75, category: "drinks", image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop" },
     { id: 17, name: "Té Helado de la Casa", price: 1.00, category: "drinks", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=600&auto=format&fit=crop" },
     { id: 18, name: "Agua Mineral", price: 0.50, category: "drinks", image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?q=80&w=600&auto=format&fit=crop" }
 ];
 
 let cart = [];
+let selectedCategory = "all";
+let productSearch = document.getElementById("productSearch");
+let noResultsMessage = null;
+
 const WHATSAPP_NUMBER = "593999999999";
 const FALLBACK_PRODUCT_IMAGE = "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=600&auto=format&fit=crop";
 
@@ -33,10 +37,9 @@ const closeCart = document.getElementById("closeCart");
 const cartOverlay = document.getElementById("cartOverlay");
 const cartBody = document.getElementById("cartBody");
 const cartTotal = document.getElementById("cartTotal");
-const cartCount = document.querySelector(".cart-count");
 const btnCheckout = document.getElementById("btnCheckout");
 const productsGrid = document.getElementById("productsGrid");
-let productSearch = document.getElementById("productSearch");
+const cartCount = document.querySelector(".cart-count");
 const categoryPills = document.querySelectorAll(".category-pill");
 const toast = document.getElementById("toast");
 const toastText = document.getElementById("toastText");
@@ -47,11 +50,12 @@ const customerAddress = document.getElementById("customerAddress");
 const customerReference = document.getElementById("customerReference");
 const customerPhone = document.getElementById("customerPhone");
 const orderNotes = document.getElementById("orderNotes");
-let noResultsMessage = null;
 
 function injectCatalogEnhancementStyles() {
     const style = document.createElement("style");
     style.textContent = `
+        .logo { display: inline-flex; align-items: center; min-width: 190px; }
+        .logo img { width: 220px !important; max-width: 42vw; height: auto !important; display: block; }
         .product-card { height: 100%; display: flex; flex-direction: column; }
         .product-card .card-info { flex: 1; display: flex; flex-direction: column; }
         .product-card .card-footer { margin-top: auto; }
@@ -73,26 +77,33 @@ function injectCatalogEnhancementStyles() {
         .btn-remove-item { background: rgba(239,68,68,0.12); color: #f87171; }
         .btn-remove-item:hover { background: #ef4444; color: #fff; }
         .empty-cart-text { padding: 32px 16px; border: 1px dashed rgba(255,255,255,0.14); border-radius: 14px; background: rgba(255,255,255,0.03); }
-        @media (max-width: 560px) {
-            .cart-item-top, .cart-item-bottom { align-items: stretch; }
-            .cart-item-bottom { flex-direction: column; }
-            .quantity-controls { justify-content: space-between; width: 100%; }
-            .btn-remove-item { width: 100%; }
-        }
+        .combos-section { max-width: 1200px; margin: 0 auto 42px; padding: 0 20px; }
+        .combos-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+        .combo-card { position: relative; display: flex; min-height: 260px; flex-direction: column; justify-content: space-between; gap: 18px; padding: 24px; overflow: hidden; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: radial-gradient(circle at 78% 8%, rgba(246,178,60,0.14), transparent 34%), linear-gradient(180deg, rgba(255,255,255,0.085), rgba(255,255,255,0.03)); box-shadow: 0 18px 38px rgba(0,0,0,0.3); transition: var(--transition); }
+        .combo-card::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(135deg, rgba(255,122,26,0.16), transparent 46%); opacity: 0.65; }
+        .combo-card > * { position: relative; z-index: 1; }
+        .combo-card:hover { transform: translateY(-5px); border-color: rgba(255,178,60,0.34); box-shadow: 0 24px 52px rgba(0,0,0,0.42), 0 12px 28px rgba(255,94,0,0.12); }
+        .combo-featured { background: radial-gradient(circle at 84% 10%, rgba(255,214,128,0.22), transparent 34%), linear-gradient(135deg, rgba(255,122,26,0.18), rgba(255,255,255,0.035)); }
+        .combo-tag { width: fit-content; padding: 7px 12px; border-radius: 999px; color: #fff7ed; background: rgba(255,122,26,0.22); border: 1px solid rgba(255,178,60,0.28); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0; }
+        .combo-card h3 { font-size: 25px; line-height: 1.12; margin-top: 2px; }
+        .combo-card p { color: var(--text-muted); line-height: 1.55; font-size: 15px; }
+        .combo-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+        .combo-meta span { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,0.065); border: 1px solid rgba(255,255,255,0.08); color: #ffd08a; font-size: 12px; font-weight: 800; }
+        .combo-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
+        .combo-footer strong { color: #fff; font-size: 27px; }
+        .combo-footer a { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 12px; color: #fff; text-decoration: none; font-size: 13px; font-weight: 800; background: var(--primary-gradient); box-shadow: 0 12px 24px rgba(255,94,0,0.18); white-space: nowrap; }
+        @media (max-width: 968px) { .combos-grid { grid-template-columns: 1fr; } .combo-card { min-height: 220px; } }
+        @media (max-width: 560px) { .logo { min-width: 0; } .logo img { width: 190px !important; max-width: 58vw; } .cart-item-top, .cart-item-bottom { align-items: stretch; } .cart-item-bottom { flex-direction: column; } .quantity-controls { justify-content: space-between; width: 100%; } .btn-remove-item { width: 100%; } .combos-section { margin-bottom: 34px; padding: 0 14px; } .combo-card { padding: 20px; min-height: auto; } .combo-footer { align-items: stretch; flex-direction: column; } .combo-footer a { width: 100%; } }
     `;
     document.head.appendChild(style);
 }
 
 function enhanceProductCards() {
-    const cards = productsGrid.querySelectorAll(".product-card");
-
-    cards.forEach(card => {
-        const productName = card.querySelector("h3").innerText.trim();
+    productsGrid.querySelectorAll(".product-card").forEach(card => {
+        const productName = card.querySelector("h3")?.innerText.trim();
         const productData = products.find(product => product.name === productName);
         const image = card.querySelector(".card-image img");
-
         if (!productData || !image) return;
-
         image.src = productData.image;
         image.alt = productData.name;
         image.loading = "lazy";
@@ -103,46 +114,48 @@ function enhanceProductCards() {
     });
 }
 
-function createNoResultsMessage() {
-    noResultsMessage = document.createElement("div");
-    noResultsMessage.className = "catalog-empty-state";
-    noResultsMessage.innerText = "No se encontraron productos";
-    noResultsMessage.style.display = "none";
-    productsGrid.appendChild(noResultsMessage);
+function injectPromoCombosSection() {
+    if (document.getElementById("combosTitle")) return;
+    const categoriesSection = document.querySelector(".categories-section");
+    if (!categoriesSection) return;
+
+    const combosSection = document.createElement("section");
+    combosSection.className = "combos-section";
+    combosSection.setAttribute("aria-labelledby", "combosTitle");
+    combosSection.innerHTML = `
+        <div class="section-title">
+            <h2 id="combosTitle">Combos y Promociones</h2>
+            <p>Opciones listas para compartir, estudiar o resolver la cena completa.</p>
+        </div>
+        <div class="combos-grid">
+            <article class="combo-card combo-featured">
+                <span class="combo-tag">Mas pedido</span>
+                <h3>Combo Doble</h3>
+                <p>Compra 2 hamburguesas y llevate 2 colas gratis para acompanar.</p>
+                <div class="combo-meta"><span>2 burgers</span><span>2 colas gratis</span></div>
+                <div class="combo-footer"><strong>$8.50</strong><a href="#menu">Ver hamburguesas</a></div>
+            </article>
+            <article class="combo-card">
+                <span class="combo-tag">Precio especial</span>
+                <h3>Combo Estudiante</h3>
+                <p>Hamburguesa clasica, papas crujientes y gaseosa personal en un solo combo.</p>
+                <div class="combo-meta"><span>Clasica</span><span>Papas + bebida</span></div>
+                <div class="combo-footer"><strong>$5.25</strong><a href="#menu">Elegir ahora</a></div>
+            </article>
+            <article class="combo-card">
+                <span class="combo-tag">Para compartir</span>
+                <h3>Combo Familiar</h3>
+                <p>4 hamburguesas, 2 papas grandes y 4 bebidas para una mesa completa.</p>
+                <div class="combo-meta"><span>4 burgers</span><span>2 papas grandes</span></div>
+                <div class="combo-footer"><strong>$18.90</strong><a href="#menu">Armar pedido</a></div>
+            </article>
+        </div>
+    `;
+    categoriesSection.insertAdjacentElement("afterend", combosSection);
 }
-
-function showToast(message) {
-    if (!toast || !toastText) return;
-    toastText.innerText = message;
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 2200);
-}
-
-function toggleCart() {
-    cartSidebar.classList.toggle("open");
-    cartOverlay.classList.toggle("open");
-}
-
-cartToggle.addEventListener("click", toggleCart);
-closeCart.addEventListener("click", toggleCart);
-cartOverlay.addEventListener("click", toggleCart);
-
-function getDeliveryType() {
-    const selected = document.querySelector('input[name="deliveryType"]:checked');
-    return selected ? selected.value : "Retiro en local";
-}
-
-function updateDeliveryFields() {
-    if (!deliveryFields) return;
-    deliveryFields.style.display = getDeliveryType() === "Domicilio" ? "grid" : "none";
-}
-
-deliveryRadios.forEach(radio => radio.addEventListener("change", updateDeliveryFields));
-updateDeliveryFields();
 
 function createProductSearch() {
     if (productSearch || !productsGrid) return;
-
     const searchBox = document.createElement("label");
     searchBox.className = "product-search";
     searchBox.style.cssText = "width:100%;margin-bottom:24px;background:var(--bg-card);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-md);color:var(--text-muted);display:flex;align-items:center;gap:12px;padding:0 16px;transition:var(--transition);";
@@ -161,7 +174,6 @@ function createProductSearch() {
         searchBox.style.boxShadow = "0 0 0 3px rgba(255,94,0,0.12)";
         searchBox.style.color = "var(--white)";
     });
-
     searchBox.addEventListener("focusout", () => {
         searchBox.style.borderColor = "rgba(255,255,255,0.08)";
         searchBox.style.boxShadow = "none";
@@ -172,7 +184,13 @@ function createProductSearch() {
     productsGrid.parentNode.insertBefore(searchBox, productsGrid);
 }
 
-let selectedCategory = "all";
+function createNoResultsMessage() {
+    noResultsMessage = document.createElement("div");
+    noResultsMessage.className = "catalog-empty-state";
+    noResultsMessage.innerText = "No se encontraron productos";
+    noResultsMessage.style.display = "none";
+    productsGrid.appendChild(noResultsMessage);
+}
 
 function normalizeText(text) {
     return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -180,54 +198,45 @@ function normalizeText(text) {
 
 function applyProductFilters() {
     const searchTerm = productSearch ? normalizeText(productSearch.value.trim()) : "";
-    const cards = productsGrid.querySelectorAll(".product-card");
     let visibleProducts = 0;
 
-    cards.forEach(card => {
+    productsGrid.querySelectorAll(".product-card").forEach(card => {
         const cardCategory = card.getAttribute("data-category");
         const productName = normalizeText(card.querySelector("h3").innerText.trim());
         const matchesCategory = selectedCategory === "all" || cardCategory === selectedCategory;
         const matchesSearch = productName.includes(searchTerm);
-
-        if (matchesCategory && matchesSearch) {
-            card.style.display = "flex";
+        const visible = matchesCategory && matchesSearch;
+        card.style.display = visible ? "flex" : "none";
+        if (visible) {
             card.style.animation = "fadeIn 0.4s ease forwards";
             visibleProducts += 1;
-        } else {
-            card.style.display = "none";
         }
     });
 
-    if (noResultsMessage) {
-        noResultsMessage.style.display = visibleProducts === 0 ? "block" : "none";
-    }
+    if (noResultsMessage) noResultsMessage.style.display = visibleProducts === 0 ? "block" : "none";
 }
 
-injectCatalogEnhancementStyles();
-enhanceProductCards();
-createProductSearch();
-createNoResultsMessage();
-applyProductFilters();
+function showToast(message) {
+    if (!toast || !toastText) return;
+    toastText.innerText = message;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2200);
+}
 
-categoryPills.forEach(pill => {
-    pill.addEventListener("click", () => {
-        categoryPills.forEach(p => p.classList.remove("active"));
-        pill.classList.add("active");
-        selectedCategory = pill.getAttribute("data-category");
-        applyProductFilters();
-    });
-});
+function toggleCart() {
+    cartSidebar.classList.toggle("open");
+    cartOverlay.classList.toggle("open");
+}
 
-if (productSearch) productSearch.addEventListener("input", applyProductFilters);
+function getDeliveryType() {
+    const selected = document.querySelector('input[name="deliveryType"]:checked');
+    return selected ? selected.value : "Retiro en local";
+}
 
-productsGrid.addEventListener("click", (e) => {
-    const targetButton = e.target.closest(".btn-add-cart");
-    if (!targetButton) return;
-    const productCard = targetButton.closest(".product-card");
-    const productName = productCard.querySelector("h3").innerText.trim();
-    const productData = products.find(p => p.name === productName);
-    if (productData) addToCart(productData);
-});
+function updateDeliveryFields() {
+    if (!deliveryFields) return;
+    deliveryFields.style.display = getDeliveryType() === "Domicilio" ? "grid" : "none";
+}
 
 function addToCart(product) {
     const existingItem = cart.find(item => item.id === product.id);
@@ -244,20 +253,13 @@ function removeFromCart(productId) {
 
 window.changeQuantity = function(productId, amount) {
     const item = cart.find(item => item.id === productId);
-    if (item) {
-        item.quantity += amount;
-        if (item.quantity <= 0) {
-            removeFromCart(productId);
-            return;
-        }
-    }
-    updateCartDOM();
+    if (!item) return;
+    item.quantity += amount;
+    if (item.quantity <= 0) removeFromCart(productId);
+    else updateCartDOM();
 };
 
-window.removeFromCart = function(productId) {
-    cart = cart.filter(item => item.id !== productId);
-    updateCartDOM();
-};
+window.removeFromCart = removeFromCart;
 
 window.clearCart = function() {
     if (cart.length === 0) {
@@ -309,19 +311,8 @@ function updateCartDOM() {
     cartTotal.innerText = `$${totalMoney.toFixed(2)}`;
 }
 
-btnCheckout.addEventListener("click", () => {
-    if (cart.length === 0) {
-        alert("Tu carrito está vacío. Agrega un producto antes de confirmar el pedido.");
-        return;
-    }
-
+function buildWhatsAppMessage() {
     const deliveryType = getDeliveryType();
-
-    if (deliveryType === "Domicilio" && (!customerName.value.trim() || !customerAddress.value.trim() || !customerPhone.value.trim())) {
-        alert("Para domicilio, completa nombre, dirección y teléfono.");
-        return;
-    }
-
     let totalMoney = 0;
     let message = "Hola Burger Studio, quiero realizar este pedido:\n\n";
     message += "PRODUCTOS\n";
@@ -346,15 +337,55 @@ btnCheckout.addEventListener("click", () => {
         message += "El cliente retirara el pedido en el local.\n";
     }
 
-    if (orderNotes && orderNotes.value.trim()) {
-        message += `\nOBSERVACIONES: ${orderNotes.value.trim()}\n`;
-    }
-
+    if (orderNotes && orderNotes.value.trim()) message += `\nOBSERVACIONES: ${orderNotes.value.trim()}\n`;
     message += "\nGracias.";
+    return message;
+}
 
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    window.open(whatsappURL, "_blank");
+cartToggle.addEventListener("click", toggleCart);
+closeCart.addEventListener("click", toggleCart);
+cartOverlay.addEventListener("click", toggleCart);
+deliveryRadios.forEach(radio => radio.addEventListener("change", updateDeliveryFields));
+
+categoryPills.forEach(pill => {
+    pill.addEventListener("click", () => {
+        categoryPills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+        selectedCategory = pill.getAttribute("data-category");
+        applyProductFilters();
+    });
 });
 
+productsGrid.addEventListener("click", event => {
+    const targetButton = event.target.closest(".btn-add-cart");
+    if (!targetButton) return;
+    const productName = targetButton.closest(".product-card").querySelector("h3").innerText.trim();
+    const productData = products.find(product => product.name === productName);
+    if (productData) addToCart(productData);
+});
+
+btnCheckout.addEventListener("click", () => {
+    if (cart.length === 0) {
+        alert("Tu carrito está vacío. Agrega un producto antes de confirmar el pedido.");
+        return;
+    }
+
+    const deliveryType = getDeliveryType();
+    if (deliveryType === "Domicilio" && (!customerName.value.trim() || !customerAddress.value.trim() || !customerPhone.value.trim())) {
+        alert("Para domicilio, completa nombre, dirección y teléfono.");
+        return;
+    }
+
+    const encodedMessage = encodeURIComponent(buildWhatsAppMessage());
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank");
+});
+
+injectCatalogEnhancementStyles();
+injectPromoCombosSection();
+enhanceProductCards();
+createProductSearch();
+createNoResultsMessage();
+if (productSearch) productSearch.addEventListener("input", applyProductFilters);
+updateDeliveryFields();
+applyProductFilters();
 updateCartDOM();
