@@ -35,6 +35,7 @@ const cartTotal = document.getElementById("cartTotal");
 const cartCount = document.querySelector(".cart-count");
 const btnCheckout = document.getElementById("btnCheckout");
 const productsGrid = document.getElementById("productsGrid");
+let productSearch = document.getElementById("productSearch");
 const categoryPills = document.querySelectorAll(".category-pill");
 const toast = document.getElementById("toast");
 const toastText = document.getElementById("toastText");
@@ -75,23 +76,75 @@ function updateDeliveryFields() {
 deliveryRadios.forEach(radio => radio.addEventListener("change", updateDeliveryFields));
 updateDeliveryFields();
 
+function createProductSearch() {
+    if (productSearch || !productsGrid) return;
+
+    const searchBox = document.createElement("label");
+    searchBox.className = "product-search";
+    searchBox.style.cssText = "width:100%;margin-bottom:24px;background:var(--bg-card);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-md);color:var(--text-muted);display:flex;align-items:center;gap:12px;padding:0 16px;transition:var(--transition);";
+
+    const searchIcon = document.createElement("i");
+    searchIcon.className = "fa-solid fa-magnifying-glass";
+
+    productSearch = document.createElement("input");
+    productSearch.type = "search";
+    productSearch.id = "productSearch";
+    productSearch.placeholder = "Buscar productos";
+    productSearch.style.cssText = "width:100%;background:transparent;border:none;color:var(--white);outline:none;padding:15px 0;font-size:15px;";
+
+    searchBox.addEventListener("focusin", () => {
+        searchBox.style.borderColor = "rgba(255,94,0,0.55)";
+        searchBox.style.boxShadow = "0 0 0 3px rgba(255,94,0,0.12)";
+        searchBox.style.color = "var(--white)";
+    });
+
+    searchBox.addEventListener("focusout", () => {
+        searchBox.style.borderColor = "rgba(255,255,255,0.08)";
+        searchBox.style.boxShadow = "none";
+        searchBox.style.color = "var(--text-muted)";
+    });
+
+    searchBox.append(searchIcon, productSearch);
+    productsGrid.parentNode.insertBefore(searchBox, productsGrid);
+}
+
+let selectedCategory = "all";
+
+function normalizeText(text) {
+    return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function applyProductFilters() {
+    const searchTerm = productSearch ? normalizeText(productSearch.value.trim()) : "";
+    const cards = productsGrid.querySelectorAll(".product-card");
+
+    cards.forEach(card => {
+        const cardCategory = card.getAttribute("data-category");
+        const productName = normalizeText(card.querySelector("h3").innerText.trim());
+        const matchesCategory = selectedCategory === "all" || cardCategory === selectedCategory;
+        const matchesSearch = productName.includes(searchTerm);
+
+        if (matchesCategory && matchesSearch) {
+            card.style.display = "block";
+            card.style.animation = "fadeIn 0.4s ease forwards";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+createProductSearch();
+
 categoryPills.forEach(pill => {
     pill.addEventListener("click", () => {
         categoryPills.forEach(p => p.classList.remove("active"));
         pill.classList.add("active");
-        const selectedCategory = pill.getAttribute("data-category");
-        const cards = productsGrid.querySelectorAll(".product-card");
-        cards.forEach(card => {
-            const cardCategory = card.getAttribute("data-category");
-            if (selectedCategory === "all" || cardCategory === selectedCategory) {
-                card.style.display = "block";
-                card.style.animation = "fadeIn 0.4s ease forwards";
-            } else {
-                card.style.display = "none";
-            }
-        });
+        selectedCategory = pill.getAttribute("data-category");
+        applyProductFilters();
     });
 });
+
+if (productSearch) productSearch.addEventListener("input", applyProductFilters);
 
 productsGrid.addEventListener("click", (e) => {
     const targetButton = e.target.closest(".btn-add-cart");
